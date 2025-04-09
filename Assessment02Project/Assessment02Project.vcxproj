@@ -140,6 +140,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Assessment02Project.cpp" />
+    <ClCompile Include="BookClass.cpp" />
+    <ClCompile Include="TransactionClass.cpp" />
+    <ClCompile Include="UserClass.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

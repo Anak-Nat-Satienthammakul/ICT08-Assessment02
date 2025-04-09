@@ -18,5 +18,14 @@
     <ClCompile Include="Assessment02Project.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BookClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransactionClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
