@@ -17,13 +17,13 @@ public: void setActiveUser(bool inpIsActive) {
     }
 
 
-public: std::string getTitle() {
+public: std::string getName() {
         return name;
     }
-public: std::string getAuthor() {
+public: std::string getContract() {
         return contract;
     }
-public: std::string getISBN() {
+public: std::string getAddress() {
         return address;
     }
 public: std::string getPosition() {

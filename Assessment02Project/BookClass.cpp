@@ -11,7 +11,7 @@ private:
 
 
 /* Method */
-public: void setBook(std::string inpTitle, std::string inpAuthor, std::string inpISBN) {
+public: BookClass(std::string inpTitle, std::string inpAuthor, std::string inpISBN) {
         title = inpTitle;
         author = inpAuthor;
         ISBN = inpISBN;
