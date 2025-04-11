@@ -19,11 +19,22 @@ int main() {
 
     // inset - Book Class
     std::cout << "Init Book in Library System.\n";
-    libCls.addBook("AAA", "AAA", "AAA");
-    libCls.addBook("BBB", "BBB", "BBB");
+    libCls.addBook("AAA", "AAA", "AAA", "2025-01-01");
+    libCls.addBook("BBB", "BBB", "BBB", "2025-01-01");
+    libCls.addBook("CCC", "CCC", "CCC", "2025-01-01");
+    libCls.addBook("DDD", "DDD", "DDD", "2025-01-01");
+    libCls.addBook("EEE", "EEE", "EEE", "2025-01-01");
 
 
     // inset - History Transaction Class
+    libCls.addTransaction(1, "BBB", "2025-04-01", "2025-04-07");
+    libCls.addTransaction(2, "BBB", "2025-04-07", "");
+
+    libCls.addTransaction(3, "CCC", "2025-04-01", "2025-04-07");
+    libCls.addTransaction(4, "CCC", "2025-04-07", "2025-04-13");
+
+    // check status
+    libCls.updateBooksStatus();
 
     // show all book
     libCls.displayBookList();
