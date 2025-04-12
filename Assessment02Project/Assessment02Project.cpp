@@ -20,10 +20,10 @@ int main() {
     // inset - Book Class
     std::cout << "Init Book in Library System.\n";
     libCls.addBook("AAA", "AAA", "AAA", "2025-01-01");
-    libCls.addBook("BBB", "BBB", "BBB", "2025-01-01");
-    libCls.addBook("CCC", "CCC", "CCC", "2025-01-01");
     libCls.addBook("DDD", "DDD", "DDD", "2025-01-01");
     libCls.addBook("EEE", "EEE", "EEE", "2025-01-01");
+    libCls.addBook("BBB", "BBB", "BBB", "2025-01-01");
+    libCls.addBook("CCC", "CCC", "CCC", "2025-01-01");
 
 
     // inset - History Transaction Class
@@ -41,6 +41,15 @@ int main() {
 
     // show all user
     libCls.displayUserList();
+
+    std::cout << std::endl;
+    // test sort
+    libCls.bubberSort();
+    // libCls.mergeSort();
+    // libCls.quickSort();
+
+    // show all book
+    libCls.displayBookList();
 
     return 0;
 }
