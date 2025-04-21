@@ -49,20 +49,12 @@ int main() {
         } else if (option == 2) {
             // show book list can borrow
             libCls.displayAvailabilityBookList(true);
-            std::string borrowBook;
-            std::cout << "Please select the book you need to borrow: ";
-            std::cin >> borrowBook;
-            std::cout << std::endl;
 
             // borrow book.  >> new Transaction
 
         } else if (option == 3) {
             // show book list can return
             libCls.displayAvailabilityBookList(false);
-            std::string returnBook;
-            std::cout << "Please select the book you need to return: ";
-            std::cin >> returnBook;
-            std::cout << std::endl;
 
             // return book.  >> Update Transaction
 
