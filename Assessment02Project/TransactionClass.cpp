@@ -37,4 +37,8 @@ public: void setTransaction(int inpTransactionId, std::string inpISBN, std::stri
         borrowDate = inpBorrowDate;
         returnDate = inpReturnDate;
     }
+public: void updateReturnDate(std::string inpReturnDate) {
+        returnDate = inpReturnDate;
+    }
 };
+

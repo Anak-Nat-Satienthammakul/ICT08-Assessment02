@@ -10,12 +10,33 @@
 #include <random>
 #include <algorithm>
 
+#include <chrono>
+#include <format>
+#include <iomanip>
+#include <sstream>
+
 class LibraryClass {
 
 private:
     std::vector<UserClass> userList[20];
     std::vector<BookClass> bookList;
-    std::vector<TransactionClass> transList[80];
+    std::vector<TransactionClass> transList;
+
+
+public: std::string getCurrentDate() const {
+    const auto now = std::chrono::system_clock::now();
+    time_t time = std::chrono::system_clock::to_time_t(now);
+    tm local_tm = *localtime(&time);
+    // std::cout << std::put_time(&local_tm, "%d-%m-%Y %H-%M-%S") << std::endl;
+    std::ostringstream oss;
+    oss << std::put_time(&local_tm, "%Y-%m-%d");
+    std::string nowTxt = oss.str();
+    return nowTxt;
+}
+
+public: int getTransSize() const {
+    return transList.size();
+}
 
 /* Menu Display method */
 public: int displayMainMenu() {
@@ -23,10 +44,11 @@ public: int displayMainMenu() {
     std::cout << std::endl << "1. Show all books.";
     std::cout << std::endl << "2. Borrow Book.";
     std::cout << std::endl << "3. Return Book.";
+    std::cout << std::endl << "4. Add a new Book.";
     std::cout << std::endl;
-    std::cout << std::endl << "4. Bubber Sortting Book.";
-    std::cout << std::endl << "5. Merge Sortting Book.";
-    std::cout << std::endl << "6. Quick Sortting Book.";
+    std::cout << std::endl << "5. Bubber Sortting Book.";
+    std::cout << std::endl << "6. Merge Sortting Book.";
+    std::cout << std::endl << "7. Quick Sortting Book.";
     std::cout << std::endl;
     std::cout << std::endl << "0. Exit.";
     std::cout << std::endl;
@@ -254,12 +276,25 @@ public: void displayAvailabilityBookList(bool isAva) {
 public: void addTransaction(int inpTransactionId, std::string inpISBN, std::string inpBorrowDate, std::string inpReturnDate) {
     TransactionClass trans;
     trans.setTransaction(inpTransactionId, inpISBN, inpBorrowDate, inpReturnDate);
-    transList->push_back(trans);
+    transList.push_back(trans);
+}
+public: void updateTransaction(std::string inpISBN, std::string returnDate) {
+    for (int i = 0; i < transList.size(); i++) {
+        try {
+            TransactionClass trans = transList.at(i);
+            if (trans.getISBN() == inpISBN && trans.getReturnDate().length() == 0) {
+                trans.updateReturnDate(returnDate);
+                transList.at(i) = trans;
+            }
+        } catch (std::exception& e) {
+            break;
+        };
+    }
 }
 public: bool isAvailabe(std::string inpISBN) {
-    for (int i = 0; i < transList->max_size(); i++) {
+    for (int i = 0; i < transList.size(); i++) {
         try {
-            TransactionClass trans = transList->at(i);
+            TransactionClass trans = transList.at(i);
             bool isAva = trans.isAvailabe(inpISBN);
             if (!isAva)
                 return false;

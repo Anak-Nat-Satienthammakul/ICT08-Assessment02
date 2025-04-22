@@ -6,6 +6,8 @@
 #include <vector>
 #include <exception>
 #include  "LibraryClass.cpp"
+#include <ctime>
+
 
 int main() {
     // the Library System
@@ -55,6 +57,10 @@ int main() {
             std::cout << std::endl;
 
             // borrow book.  >> new Transaction
+            std::string nowTxt = libCls.getCurrentDate();
+            libCls.addTransaction(libCls.getTransSize() + 1, borrowBook, nowTxt, "");
+            // check status
+            libCls.updateBooksStatus();
 
         } else if (option == 3) {
             // show book list can return
@@ -65,28 +71,31 @@ int main() {
             std::cout << std::endl;
 
             // return book.  >> Update Transaction
-
-        } else if (option == 4) {
-            // show sub-sort-menu option
-            int subOption = libCls.displaySortSubMenu();
-            std::string sort = "";
-            if (subOption == 1) {
-                sort = "asc";
-                // sortting
-                libCls.bubberSort(sort);
-            } else if (subOption == 2) {
-                sort = "desc";
-                // sortting
-                libCls.bubberSort(sort);
-            } else if (subOption == 3) {
-                sort = "mix";
-                // suffering
-                libCls.sufferingSort();
-            }
-
-            // show all book
-            libCls.displayBookList(false);
+            std::string nowTxt = libCls.getCurrentDate();
+            libCls.updateTransaction(returnBook, nowTxt);
+            // check status
+            libCls.updateBooksStatus();
             
+        } else if (option == 4) {
+            // add a new book;
+            std::string inpTitle;
+            std::string inpAuthor;
+            std::string inpISBN;
+            std::string inpDateAdd;
+
+            std::cout << "Please insert a new book. " << std::endl;
+            std::cout << "Title: ";
+            std::cin >> inpTitle;
+            std::cout << "Author: ";
+            std::cin >> inpAuthor;
+            std::cout << "ISBN: ";
+            std::cin >> inpISBN;
+            std::cout << "Date Add(YYYY-MM-DD): ";
+            std::cin >> inpDateAdd;
+            
+            // insert a new book.
+            libCls.addBook(inpTitle, inpAuthor, inpISBN, inpDateAdd);
+
         } else if (option == 5) {
             // show sub-sort-menu option
             int subOption = libCls.displaySortSubMenu();
@@ -94,11 +103,11 @@ int main() {
             if (subOption == 1) {
                 sort = "asc";
                 // sortting
-                libCls.mergeSort(sort);
+                libCls.bubberSort(sort);
             } else if (subOption == 2) {
                 sort = "desc";
                 // sortting
-                libCls.mergeSort(sort);
+                libCls.bubberSort(sort);
             } else if (subOption == 3) {
                 sort = "mix";
                 // suffering
@@ -109,6 +118,27 @@ int main() {
             libCls.displayBookList(false);
             
         } else if (option == 6) {
+            // show sub-sort-menu option
+            int subOption = libCls.displaySortSubMenu();
+            std::string sort = "";
+            if (subOption == 1) {
+                sort = "asc";
+                // sortting
+                libCls.mergeSort(sort);
+            } else if (subOption == 2) {
+                sort = "desc";
+                // sortting
+                libCls.mergeSort(sort);
+            } else if (subOption == 3) {
+                sort = "mix";
+                // suffering
+                libCls.sufferingSort();
+            }
+
+            // show all book
+            libCls.displayBookList(false);
+            
+        } else if (option == 7) {
             // show sub-sort-menu option
             int subOption = libCls.displaySortSubMenu();
             std::string sort = "";
