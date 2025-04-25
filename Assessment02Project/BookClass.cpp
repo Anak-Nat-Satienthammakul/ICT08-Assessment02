@@ -7,15 +7,13 @@
 
 
 class BookClass {
-private:
+protected:
     std::string title;
     std::string author;
     std::string ISBN;
-    // tm* DateAdd;
     std::string dateAdd;
     bool isAvailabe = true;
-
-    // TransactionClass currentTrans;
+    
 
 /* Method */
 public: BookClass(std::string inpTitle, std::string inpAuthor, std::string inpISBN, std::string inpAddedDate) {

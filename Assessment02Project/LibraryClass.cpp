@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 #include <exception>
-#include  "BookClass.cpp"
+// #include  "BookClass.cpp"
+#include  "EBookClass.cpp"
 #include  "UserClass.cpp"
 #include  "TransactionClass.cpp"
 
@@ -19,7 +20,7 @@ class LibraryClass {
 
 private:
     std::vector<UserClass> userList[20];
-    std::vector<BookClass> bookList;
+    std::vector<EBookClass> bookList;
     std::vector<TransactionClass> transList;
 
 
@@ -104,13 +105,19 @@ public: void displayUserList() {
 
 /* Book Class method */
 public: void addBook(std::string inpTitle, std::string inpAuthor, std::string inpISBN, std::string inpAddedDate) {
-    BookClass book = BookClass(inpTitle, inpAuthor, inpISBN, inpAddedDate);
+
+    EBookClass book = EBookClass(inpTitle, inpAuthor, inpISBN, inpAddedDate, false, "");
+    bookList.push_back(book);
+}
+public: void addBook(std::string inpTitle, std::string inpAuthor, std::string inpISBN, std::string inpAddedDate, bool inpIsEBook, std::string inpEBookUrl) {
+
+    EBookClass book = EBookClass(inpTitle, inpAuthor, inpISBN, inpAddedDate, inpIsEBook, inpEBookUrl);
     bookList.push_back(book);
 }
 public: void updateBooksStatus() {
     for (int i = 0; i < bookList.size(); i++) {
         try {
-            BookClass book = bookList.at(i);
+            EBookClass book = bookList.at(i);
             bool isAva = isAvailabe(book.getISBN());
             book.setAvailabe(isAva);
             //
@@ -124,12 +131,12 @@ public: void updateBooksStatus() {
 public: void displayBookList(bool showAll) {
     std::cout << std::endl;
 
-    std::vector<BookClass> cBookList[20];
-    std::vector<BookClass> inBookList[20];
+    std::vector<EBookClass> cBookList[20];
+    std::vector<EBookClass> inBookList[20];
 
     // check corrent/incoorect
     for (int i = 0; i < bookList.size(); i++) {
-        BookClass book = bookList.at(i);
+        EBookClass book = bookList.at(i);
         // check
         if (book.getTitle().length() == 0 ||
             book.getAuthor().length() == 0 ||
@@ -147,28 +154,38 @@ public: void displayBookList(bool showAll) {
     // Show correct book.
     std::cout << "Correct Book’s information." << std::endl << std::endl;
     for (int i = 0; i < cBookList->size(); i++) {
-        BookClass book = cBookList->at(i);
+        EBookClass book = cBookList->at(i);
         std::cout << "Title: " << book.getTitle() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < cBookList->size(); i++) {
-        BookClass book = cBookList->at(i);
+        EBookClass book = cBookList->at(i);
         std::cout << "Author: " << book.getAuthor() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < cBookList->size(); i++) {
-        BookClass book = cBookList->at(i);
+        EBookClass book = cBookList->at(i);
         std::cout << "ISBN: " << book.getISBN() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < cBookList->size(); i++) {
-        BookClass book = cBookList->at(i);
+        EBookClass book = cBookList->at(i);
         std::cout << "Availability: " << (book.getAvailabe() ? "True" : "False") << "\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < cBookList->size(); i++) {
-        BookClass book = cBookList->at(i);
+        EBookClass book = cBookList->at(i);
         std::cout << "DateAdd: " << book.getDateAdded() << "\t";
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < cBookList->size(); i++) {
+        EBookClass book = cBookList->at(i);
+        std::cout << "Is E-Book: " << (book.getIsEBook() ? "True" : "False") << "\t";
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < cBookList->size(); i++) {
+        EBookClass book = cBookList->at(i);
+        std::cout << "E-Book URL: " << (book.getEBookUrl().length() == 0 ? "\t" : book.getEBookUrl()) << "\t";
     }
     std::cout << std::endl;
 
@@ -179,27 +196,27 @@ public: void displayBookList(bool showAll) {
     std::cout << std::endl;
     std::cout << "Incorrect Book’s information." << std::endl << std::endl;
     for (int i = 0; i < inBookList->size(); i++) {
-        BookClass book = inBookList->at(i);
+        EBookClass book = inBookList->at(i);
         std::cout << "Title: " << book.getTitle() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < inBookList->size(); i++) {
-        BookClass book = inBookList->at(i);
+        EBookClass book = inBookList->at(i);
         std::cout << "Author: " << book.getAuthor() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < inBookList->size(); i++) {
-        BookClass book = inBookList->at(i);
+        EBookClass book = inBookList->at(i);
         std::cout << "ISBN: " << book.getISBN() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < inBookList->size(); i++) {
-        BookClass book = inBookList->at(i);
+        EBookClass book = inBookList->at(i);
         std::cout << "Availability: " << (book.getAvailabe() ? "True" : "False") << "\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < inBookList->size(); i++) {
-        BookClass book = inBookList->at(i);
+        EBookClass book = inBookList->at(i);
         std::cout << "DateAdd: " << book.getDateAdded() << "\t";
     }
     std::cout << std::endl;
@@ -208,7 +225,7 @@ public: void displayBookList(bool showAll) {
     for (int i = 0; i < bookList->size(); i++) {
         try {
             // std::cout << std::endl;
-            BookClass book = bookList->at(i);
+            EBookClass book = bookList->at(i);
 
             // std::cout << "bookList["    << i << "] >> " << std::endl;
             std::cout << "Title: "        << book.getTitle()        << std::endl;
@@ -225,11 +242,11 @@ public: void displayBookList(bool showAll) {
 */
 }
 public: void displayAvailabilityBookList(bool isAva) {
-    std::vector<BookClass> showBooks;
+    std::vector<EBookClass> showBooks;
 
     // check corrent/incoorect
     for (int i = 0; i < bookList.size(); i++) {
-        BookClass book = bookList.at(i);
+        EBookClass book = bookList.at(i);
         if (book.getAvailabe() && isAva) {
             showBooks.push_back(book);
         } else if (!book.getAvailabe() && !isAva) {
@@ -244,27 +261,27 @@ public: void displayAvailabilityBookList(bool isAva) {
 
 
     for (int i = 0; i < showBooks.size(); i++) {
-        BookClass book = showBooks.at(i);
+        EBookClass book = showBooks.at(i);
         std::cout << "Title: " << book.getTitle() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < showBooks.size(); i++) {
-        BookClass book = showBooks.at(i);
+        EBookClass book = showBooks.at(i);
         std::cout << "Author: " << book.getAuthor() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < showBooks.size(); i++) {
-        BookClass book = showBooks.at(i);
+        EBookClass book = showBooks.at(i);
         std::cout << "ISBN: " << book.getISBN() << "\t\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < showBooks.size(); i++) {
-        BookClass book = showBooks.at(i);
+        EBookClass book = showBooks.at(i);
         std::cout << "Availability: " << (book.getAvailabe() ? "True" : "False") << "\t";
     }
     std::cout << std::endl;
     for (int i = 0; i < showBooks.size(); i++) {
-        BookClass book = showBooks.at(i);
+        EBookClass book = showBooks.at(i);
         std::cout << "DateAdd: " << book.getDateAdded() << "\t";
     }
     std::cout << std::endl;
@@ -307,12 +324,12 @@ public: bool isAvailabe(std::string inpISBN) {
 
 
 /* Get correct books */
-private: std::vector<BookClass> getCorrectBooks() const {
-    std::vector<BookClass> cBookList;
+private: std::vector<EBookClass> getCorrectBooks() const {
+    std::vector<EBookClass> cBookList;
 
     // check corrent
     for (int i = 0; i < bookList.size(); i++) {
-        BookClass book = bookList.at(i);
+        EBookClass book = bookList.at(i);
         // check
         if (book.getTitle().length() == 0 ||
             book.getAuthor().length() == 0 ||
@@ -335,7 +352,7 @@ public: void bubberSort(std::string sort) {
     bool swapped;
     std::cout << ">>> BubberSort method [" + sort + "]. <<<" << std::endl;
 
-    std::vector<BookClass> list;
+    std::vector<EBookClass> list;
     list = getCorrectBooks();
 
     // loop for each pass
@@ -354,7 +371,7 @@ public: void bubberSort(std::string sort) {
                         std::cout << "\t|-->> Swap elements";
 
                         // Swap elements
-                        BookClass temp = list.at(j);
+                        EBookClass temp = list.at(j);
                         list.at(j) = list.at(j+1);
                         list.at(j + 1) = temp;
                         swapped = true;
@@ -362,7 +379,7 @@ public: void bubberSort(std::string sort) {
                         std::cout << "\t|-->> Swap elements";
 
                         // Swap elements
-                        BookClass temp = list.at(j);
+                        EBookClass temp = list.at(j);
                         list.at(j) = list.at(j + 1);
                         list.at(j + 1) = temp;
                         swapped = true;
@@ -418,8 +435,8 @@ private: void mergeLogic(int left, int mid, int right, int step, std::string sor
     int n2 = right - mid;    // Size of right subarray
 
     // Create temporary arrays
-    std::vector<BookClass> L;
-    std::vector<BookClass> R;
+    std::vector<EBookClass> L;
+    std::vector<EBookClass> R;
 
     // Copy data into temp arrays
     for (int i = 0; i < n1; i++) {
@@ -492,7 +509,7 @@ private: int partition(int low, int high, std::string sort) {
 
             // Swap
             std::cout << "swap" << std::endl;
-            BookClass temp = bookList.at(i);
+            EBookClass temp = bookList.at(i);
             bookList.at(i) = bookList.at(j);
             bookList.at(j) = temp;
         } else if (bookList.at(j).getISBN() > pivot && "desc" == sort) {
@@ -500,7 +517,7 @@ private: int partition(int low, int high, std::string sort) {
 
             // Swap
             std::cout << "swap" << std::endl;
-            BookClass temp = bookList.at(i);
+            EBookClass temp = bookList.at(i);
             bookList.at(i) = bookList.at(j);
             bookList.at(j) = temp;
         }
@@ -508,7 +525,7 @@ private: int partition(int low, int high, std::string sort) {
 
     // Swap
     std::cout << "swap" << std::endl;
-    BookClass temp = bookList.at(i + 1);
+    EBookClass temp = bookList.at(i + 1);
     bookList.at(i + 1) = bookList.at(high);
     bookList.at(high) = temp;
 

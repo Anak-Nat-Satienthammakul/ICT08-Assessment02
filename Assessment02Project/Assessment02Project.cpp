@@ -6,8 +6,8 @@
 #include <vector>
 #include <exception>
 #include  "LibraryClass.cpp"
-#include <ctime>
-
+#include <ctype.h>
+#include <string_view> 
 
 int main() {
     // the Library System
@@ -26,18 +26,19 @@ int main() {
     libCls.addBook("EEE", "EEE", "EEE", "2025-01-01");
     libCls.addBook("BBB", "BBB", "BBB", "2025-01-01");
     libCls.addBook("CCC", "CCC", "CCC", "2025-01-01");
-    libCls.addBook("FFF", "FFF", "FFF", "");
+//    libCls.addBook("FFF", "FFF", "FFF", "");
+//    libCls.addBook("HHH", "", "", "2025-04-24");
 
 
     // inset - History Transaction Class
-    libCls.addTransaction(1, "BBB", "2025-04-01", "2025-04-07");
-    libCls.addTransaction(2, "BBB", "2025-04-07", "");
-
-    libCls.addTransaction(3, "CCC", "2025-04-01", "2025-04-07");
-    libCls.addTransaction(4, "CCC", "2025-04-07", "2025-04-13");
+//    libCls.addTransaction(1, "BBB", "2025-04-01", "2025-04-07");
+//    libCls.addTransaction(2, "BBB", "2025-04-07", "");
+//
+//    libCls.addTransaction(3, "CCC", "2025-04-01", "2025-04-07");
+//    libCls.addTransaction(4, "CCC", "2025-04-07", "2025-04-13");
 
     // check status
-    libCls.updateBooksStatus();
+//    libCls.updateBooksStatus();
 
     // show main-menu
     do {
@@ -82,19 +83,96 @@ int main() {
             std::string inpAuthor;
             std::string inpISBN;
             std::string inpDateAdd;
+            std::string inpIsEBook;
+            bool isEBook = false;
+            std::string inpEBookUrl;
 
             std::cout << "Please insert a new book. " << std::endl;
+            
             std::cout << "Title: ";
             std::cin >> inpTitle;
+
             std::cout << "Author: ";
             std::cin >> inpAuthor;
-            std::cout << "ISBN: ";
-            std::cin >> inpISBN;
-            std::cout << "Date Add(YYYY-MM-DD): ";
-            std::cin >> inpDateAdd;
+
+            bool isPassISBN = false;
+            do {
+                std::cout << "ISBN(only number): ";
+                std::cin >> inpISBN;
+                isPassISBN = true;
+                try {
+                    int num_int = std::stoi(inpISBN);
+                } catch (const std::invalid_argument& e) {
+                    std::cout << ">> Wrong input, Please insert ISBN(only number)." << std::endl;
+                    isPassISBN = false;
+                }
+            } while (!isPassISBN);
+
+            bool isPassDate = false;
+            do {
+                std::cout << "Date Add(YYYY-MM-DD): ";
+                std::cin >> inpDateAdd;
+                isPassDate = true;
+
+                // validate format
+                size_t count = std::count_if(inpDateAdd.begin(), inpDateAdd.end(), [](char c) {return c == '-';});
+                if (count != 2) {
+                    std::cout << ">> Wrong format, Please insert Date in the format(YYYY-MM-DD)." << std::endl;
+                    isPassDate = false;
+                }
+                
+                // validate Number
+                if(isPassDate)
+                    try {
+                        std::string year = inpDateAdd.substr(0, 4);
+                        std::string month = inpDateAdd.substr(5, 2);
+                        std::string date = inpDateAdd.substr(8, 2);
+
+                        int year_int  = std::stoi(year);
+                        int month_int = std::stoi(month);
+                        int date_int  = std::stoi(date);
+                    } catch (const std::invalid_argument& e) {
+                        std::cout << ">> Wrong Format, Please insert Date in the format(YYYY-MM-DD)." << std::endl;
+                        isPassDate = false;
+                    }
+            } while (!isPassDate);
+
+            std::cout << "The book is EBook(Y/N): ";
+            std::cin >> inpIsEBook;
             
+            if (inpIsEBook == "Y" || inpIsEBook == "y" || inpIsEBook == "yes" || inpIsEBook == "YES")
+                isEBook = true;
+            if (isEBook) {
+                bool isPassEBookUrl = false;
+                do {
+                    std::cout << "The E-Book URL: ";
+                    std::cin >> inpEBookUrl;
+                    isPassEBookUrl = true;
+                
+                    // validate format 'http', '://', '/'
+                    // start with 'http'
+                    std::string httpTxt = inpEBookUrl.substr(0, 7);
+                    size_t count2 = std::count_if(inpEBookUrl.begin(), inpEBookUrl.end(), [](char c) {return c == '/';});
+
+                    std::cout << "httpTxt: " << httpTxt << std::endl;
+                    std::cout << "count2: " << count2 << std::endl;
+                    if ((httpTxt == "http://" || httpTxt == "https:/") && count2 > 2) {
+                        // correct
+                    } else {
+                        std::cout << ">> Wrong Format, Please insert E-Book URL in the website format." << std::endl;
+                        isPassEBookUrl = false;
+                    }
+
+                } while (!isPassEBookUrl);
+            }
+            
+
             // insert a new book.
-            libCls.addBook(inpTitle, inpAuthor, inpISBN, inpDateAdd);
+            if (isEBook) {
+                libCls.addBook(inpTitle, inpAuthor, inpISBN, inpDateAdd, isEBook, inpEBookUrl);
+            } else {
+                libCls.addBook(inpTitle, inpAuthor, inpISBN, inpDateAdd);
+            }
 
         } else if (option == 5) {
             // show sub-sort-menu option
@@ -169,24 +247,6 @@ int main() {
         // std::getline(std::cin, inp);
 
     } while (true);
-/** 
-    // show all book
-    libCls.displayBookList();
 
-    // show all user
-    libCls.displayUserList();
-
-    std::cout << std::endl;
-    // test sort
-    libCls.bubberSort();
-    // libCls.mergeSort();
-    // libCls.quickSort();
-
-
-    // show all book
-    libCls.displayBookList();
-
-    return 0;
-*/
 }
 

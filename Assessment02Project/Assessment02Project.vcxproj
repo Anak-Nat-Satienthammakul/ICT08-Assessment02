@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Assessment02Project.cpp" />
     <ClCompile Include="BookClass.cpp" />
+    <ClCompile Include="EBookClass.cpp" />
     <ClCompile Include="LibraryClass.cpp" />
     <ClCompile Include="TransactionClass.cpp" />
     <ClCompile Include="UserClass.cpp" />
