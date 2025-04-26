@@ -152,7 +152,21 @@ public: void displayBookList(bool showAll) {
     }
 
     // Show correct book.
-    std::cout << "Correct Book’s information." << std::endl << std::endl;
+    std::cout << "Book’s information." << std::endl << std::endl;
+    for (int i = 0; i < cBookList->size(); i++) {
+        EBookClass book = cBookList->at(i);
+        std::cout << "Title: " << book.getTitle() << std::endl;
+        std::cout << "Author: " << book.getAuthor() << std::endl;
+        std::cout << "ISBN: " << book.getISBN() << std::endl;
+        std::cout << "Availability: " << (book.getAvailabe() ? "True" : "False") << std::endl;
+        std::cout << "DateAdd: " << book.getDateAdded() << std::endl;
+
+//        std::cout << "Is E-Book: " << (book.getIsEBook() ? "True" : "False") << std::endl;
+//        std::cout << "E-Book URL: " << (book.getEBookUrl().length() == 0 ? "\t" : book.getEBookUrl()) << std::endl;
+
+        std::cout << std::endl;
+    }
+/**
     for (int i = 0; i < cBookList->size(); i++) {
         EBookClass book = cBookList->at(i);
         std::cout << "Title: " << book.getTitle() << "\t\t";
@@ -188,10 +202,10 @@ public: void displayBookList(bool showAll) {
         std::cout << "E-Book URL: " << (book.getEBookUrl().length() == 0 ? "\t" : book.getEBookUrl()) << "\t";
     }
     std::cout << std::endl;
-
+*/
     if (!showAll)
         return; 
-
+/**
     // Show incorrect book.
     std::cout << std::endl;
     std::cout << "Incorrect Book’s information." << std::endl << std::endl;
@@ -220,7 +234,7 @@ public: void displayBookList(bool showAll) {
         std::cout << "DateAdd: " << book.getDateAdded() << "\t";
     }
     std::cout << std::endl;
-
+*/
 /**
     for (int i = 0; i < bookList->size(); i++) {
         try {

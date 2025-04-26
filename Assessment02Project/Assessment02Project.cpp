@@ -21,24 +21,22 @@ int main() {
 
     // inset - Book Class
     std::cout << "Init Book in Library System.\n";
-    libCls.addBook("AAA", "AAA", "AAA", "2025-01-01");
-    libCls.addBook("DDD", "DDD", "DDD", "2025-01-01");
-    libCls.addBook("EEE", "EEE", "EEE", "2025-01-01");
-    libCls.addBook("BBB", "BBB", "BBB", "2025-01-01");
-    libCls.addBook("CCC", "CCC", "CCC", "2025-01-01");
-//    libCls.addBook("FFF", "FFF", "FFF", "");
-//    libCls.addBook("HHH", "", "", "2025-04-24");
+    libCls.addBook("The Great Gatsby",      "F. Scott Fitzgerald",  "978-0-7432-7356-5", "2025-01-01");
+    libCls.addBook("To Kill a Mockingbird", "Harper Lee",           "978-0-06-112008-4", "2025-01-01");
+    libCls.addBook("1984",                  "George Orwell",        "978-0-452-28423-4", "2025-01-01");
+    libCls.addBook("The Alchemist",         "Paulo Coelho",         "978-0-06-112241-5", "2025-01-01");
+    libCls.addBook("Pride and Prejudice",   "Jane Austen",          "978-0-14-143951-8", "2025-01-01");
 
 
     // inset - History Transaction Class
-//    libCls.addTransaction(1, "BBB", "2025-04-01", "2025-04-07");
-//    libCls.addTransaction(2, "BBB", "2025-04-07", "");
-//
-//    libCls.addTransaction(3, "CCC", "2025-04-01", "2025-04-07");
-//    libCls.addTransaction(4, "CCC", "2025-04-07", "2025-04-13");
+    libCls.addTransaction(1, "978-0-06-112008-4", "2025-04-01", "2025-04-07");
+    libCls.addTransaction(2, "978-0-06-112008-4", "2025-04-07", "");
+
+    libCls.addTransaction(3, "978-0-06-112241-5", "2025-04-01", "2025-04-07");
+    libCls.addTransaction(4, "978-0-06-112241-5", "2025-04-07", "2025-04-13");
 
     // check status
-//    libCls.updateBooksStatus();
+    libCls.updateBooksStatus();
 
     // show main-menu
     do {
@@ -86,19 +84,38 @@ int main() {
             std::string inpIsEBook;
             bool isEBook = false;
             std::string inpEBookUrl;
-
-            std::cout << "Please insert a new book. " << std::endl;
             
-            std::cout << "Title: ";
-            std::cin >> inpTitle;
+            std::cout << "Please insert a new book. " << std::endl;
+            std::cin.ignore();
 
-            std::cout << "Author: ";
-            std::cin >> inpAuthor;
+
+            bool isPassTitle = false;
+            do {
+                std::cout << "Title: ";
+                std::getline(std::cin, inpTitle);
+                isPassTitle = true;
+                if (inpTitle.length() == 0) {
+                    std::cout << ">> Please check, Please insert Title." << std::endl;
+                    isPassTitle = false;
+                }
+            } while (!isPassTitle);
+
+            bool isPassAuthor = false;
+            do {
+                std::cout << "Author: ";
+                std::getline(std::cin, inpAuthor);
+                isPassAuthor = true;
+                if (inpAuthor.length() == 0) {
+                    std::cout << ">> Please check, Please insert Author." << std::endl;
+                    isPassAuthor = false;
+                }
+            } while (!isPassAuthor);
 
             bool isPassISBN = false;
             do {
                 std::cout << "ISBN(only number): ";
-                std::cin >> inpISBN;
+                std::getline(std::cin, inpISBN);
+                // std::cin >> inpISBN;
                 isPassISBN = true;
                 try {
                     int num_int = std::stoi(inpISBN);
@@ -111,7 +128,8 @@ int main() {
             bool isPassDate = false;
             do {
                 std::cout << "Date Add(YYYY-MM-DD): ";
-                std::cin >> inpDateAdd;
+                std::getline(std::cin, inpDateAdd);
+                // std::cin >> inpDateAdd;
                 isPassDate = true;
 
                 // validate format
@@ -138,7 +156,8 @@ int main() {
             } while (!isPassDate);
 
             std::cout << "The book is EBook(Y/N): ";
-            std::cin >> inpIsEBook;
+            std::getline(std::cin, inpIsEBook);
+            // std::cin >> inpIsEBook;
             
             if (inpIsEBook == "Y" || inpIsEBook == "y" || inpIsEBook == "yes" || inpIsEBook == "YES")
                 isEBook = true;
@@ -146,7 +165,8 @@ int main() {
                 bool isPassEBookUrl = false;
                 do {
                     std::cout << "The E-Book URL: ";
-                    std::cin >> inpEBookUrl;
+                    std::getline(std::cin, inpEBookUrl);
+                    // std::cin >> inpEBookUrl;
                     isPassEBookUrl = true;
                 
                     // validate format 'http', '://', '/'
